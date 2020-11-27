@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @book_review.user_id %>
+</p>
+
+<p>
+  <strong>Book:</strong>
+  <%= @book_review.book_id %>
+</p>
+
+<p>
+  <strong>Review:</strong>
+  <%= @book_review.review %>
+</p>
+
+<h2><b>Review Book</b></h2>
+<%= form_for BookReview.new  do |f|%>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.hidden_field :book_id, value: @book.id %>
+  <%= f.text_area :review %><br>
+  <%= f.submit "Submit" %>
+<% end %>
+
+<%= link_to 'Edit', edit_book_review_path(@book_review) %> |
+<%= link_to 'Back', book_reviews_path %>
