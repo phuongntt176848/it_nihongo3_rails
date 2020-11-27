@@ -15,29 +15,32 @@
   <%= @book.detail %>
 </p>
 
+
 <p>
   <% if @book.image.attached? %>
     <%= image_tag @book.image %>
   <% end %>
 </p>
 
-<h2><b>Review Book</b></h2>
-<%= form_for BookReview.new  do |f|%>
-  <%= form_for BookReview.new  do |f|%>
-  <%= f.hidden_field :user_id, value: current_user.id %>	
-  <%= f.hidden_field :book_id, value: @book.id %>	  
-  <%= f.text_area :review %><br>	 
-  <%= f.submit "Submit" %>
-<% end %><br>
-<h2><b>Review List</b></h2>
+<h2>Review From</h2>
+<%= form_with(model: @book_review, local: true) do |form| %>
+  <div class= "field">
+    <%= form.text_area :review %>
+    <%= form.hidden_field :book_id, :value => @book.id %>
+    <%= form.hidden_field :user_id, :value => current_user.id %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
 
-<% unless @book.book_reviews.empty? %>
-  <ul>
-    <% @book.book_reviews.each do |review| %>
-      <li><%= review.review %>(<%= review.user_id %>)</li>
-    <% end %>
-  </ul>
-<% end %>	<% end %>
+<h2>Review List</h2>
+<ul>
+  <% @book.book_review.each do |book_review|%>
+   <li><%= book_review.review %>
+     (<i><%= book_review.user.name if book_review.user%></i>)</li>
+<% end %>
+</ul>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>
